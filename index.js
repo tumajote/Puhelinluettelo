@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.static('build'))
 const cors = require('cors')
 app.use(cors())
 const bodyParser = require('body-parser')
@@ -64,7 +65,7 @@ app.get('/api/persons/:id', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     persons = persons.filter(person => person.id !== id)
-
+    console.log('DELETE');
     res.status(204).end()
 })
 
@@ -79,6 +80,7 @@ app.post('/api/persons/', (req, res) => {
     }
 
     if (persons.some(person => person.name === body.name)) {
+        console.log("ALREADY EXIST");
         return res.status(400).json({ error: 'name must be unique' })
     }
 
